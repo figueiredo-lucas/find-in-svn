@@ -22,7 +22,7 @@ public class ReadSqlFromSvn {
     private String username;
     private String password;
     private String ext;
-    private final String regex = "\"(\\(|\\w).*?({param})\"";
+    private final String regex = "href=\"?.*{param}\"?>";
     private final List<MatchResult> matches = new ArrayList<>();
     private final List<String> scripts = new ArrayList<>();
 
@@ -45,7 +45,7 @@ public class ReadSqlFromSvn {
             while ((inputLine = in.readLine()) != null) {
                 sb.append(inputLine);
             }
-            getScripts(sb.toString());
+            getScripts(sb.toString().replace("<li>", "\n"));
         }
 
     }
@@ -85,7 +85,7 @@ public class ReadSqlFromSvn {
         final Pattern pattern = Pattern.compile(getRegex(), Pattern.CASE_INSENSITIVE);
         final Matcher matcher = pattern.matcher(page);
         while (matcher.find()) {
-            scripts.add(matcher.group().replace("\"", ""));
+            scripts.add(matcher.group().replace("\"", "").replace(">", "").replace("href=", ""));
         }
     }
     

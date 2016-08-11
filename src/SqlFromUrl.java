@@ -22,6 +22,7 @@ public class SqlFromUrl {
                 runFile(sqlFromSvn, in, script);
             } catch (final IOException ex) {
                 System.out.println("Erro no script: " + script);
+                ex.printStackTrace();
             }
         }
         sqlFromSvn.getSearchResult();
